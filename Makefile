@@ -46,7 +46,7 @@ vet:
 # CI is just getting latest master for dependencies like grpc.
 .PHONY: staticcheck
 staticcheck:
-	@go install honnef.co/go/tools/cmd/staticcheck@v0.0.1-2020.1.4
+	@go install honnef.co/go/tools/cmd/staticcheck@v0.3.3
 	staticcheck ./...
 
 .PHONY: ineffassign
@@ -56,7 +56,7 @@ ineffassign:
 
 .PHONY: predeclared
 predeclared:
-	@go install github.com/nishanths/predeclared@86fad755b4d3
+	@go install github.com/nishanths/predeclared@v0.2.2
 	predeclared .
 
 # Intentionally omitted from CI, but target here for ad-hoc reports.

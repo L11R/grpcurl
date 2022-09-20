@@ -14,8 +14,6 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	http_dialer "github.com/mwitkow/go-http-dialer"
-	"golang.org/x/net/proxy"
 	"io/ioutil"
 	"net"
 	"net/url"
@@ -23,6 +21,9 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+
+	http_dialer "github.com/mwitkow/go-http-dialer"
+	"golang.org/x/net/proxy"
 
 	"github.com/golang/protobuf/proto" //lint:ignore SA1019 we have to import this because it appears in exported API
 	"github.com/jhump/protoreflect/desc"
@@ -410,9 +411,9 @@ func makeTemplate(md *desc.MessageDescriptor, path []*desc.MessageDescriptor) pr
 	case "google.protobuf.Any":
 		// empty type URL is not allowed by JSON representation
 		// so we must give it a dummy type
-		var any anypb.Any
-		_ = anypb.MarshalFrom(&any, &emptypb.Empty{}, protov2.MarshalOptions{})
-		return &any
+		var a anypb.Any
+		_ = anypb.MarshalFrom(&a, &emptypb.Empty{}, protov2.MarshalOptions{})
+		return &a
 	case "google.protobuf.Value":
 		// unset kind is not allowed by JSON representation
 		// so we must give it something

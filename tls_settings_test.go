@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
@@ -173,6 +174,7 @@ func TestBrokenTLS_ServerPlainText(t *testing.T) {
 		t.Fatal("expecting TLS failure setting up server and client")
 		e.Close()
 	}
+	assert.NotNil(t, e)
 	if !strings.Contains(err.Error(), "first record does not look like a TLS handshake") {
 		t.Fatalf("expecting TLS handshake failure, got: %v", err)
 	}
@@ -193,6 +195,7 @@ func TestBrokenTLS_ServerUsesWrongCert(t *testing.T) {
 		t.Fatal("expecting TLS failure setting up server and client")
 		e.Close()
 	}
+	assert.NotNil(t, e)
 	if !strings.Contains(err.Error(), "certificate is valid for") {
 		t.Fatalf("expecting TLS certificate error, got: %v", err)
 	}
@@ -213,6 +216,7 @@ func TestBrokenTLS_ClientHasExpiredCert(t *testing.T) {
 		t.Fatal("expecting TLS failure setting up server and client")
 		e.Close()
 	}
+	assert.NotNil(t, e)
 	if !strings.Contains(err.Error(), "bad certificate") {
 		t.Fatalf("expecting TLS certificate error, got: %v", err)
 	}
@@ -233,6 +237,7 @@ func TestBrokenTLS_ServerHasExpiredCert(t *testing.T) {
 		t.Fatal("expecting TLS failure setting up server and client")
 		e.Close()
 	}
+	assert.NotNil(t, e)
 	if !strings.Contains(err.Error(), "certificate has expired or is not yet valid") {
 		t.Fatalf("expecting TLS certificate expired, got: %v", err)
 	}
@@ -253,6 +258,7 @@ func TestBrokenTLS_ClientNotTrusted(t *testing.T) {
 		t.Fatal("expecting TLS failure setting up server and client")
 		e.Close()
 	}
+	assert.NotNil(t, e)
 	if !strings.Contains(err.Error(), "bad certificate") {
 		t.Fatalf("expecting TLS certificate error, got: %v", err)
 	}
@@ -273,6 +279,7 @@ func TestBrokenTLS_ServerNotTrusted(t *testing.T) {
 		t.Fatal("expecting TLS failure setting up server and client")
 		e.Close()
 	}
+	assert.NotNil(t, e)
 	if !strings.Contains(err.Error(), "certificate signed by unknown authority") {
 		t.Fatalf("expecting TLS certificate error, got: %v", err)
 	}
@@ -293,6 +300,7 @@ func TestBrokenTLS_RequireClientCertButNonePresented(t *testing.T) {
 		t.Fatal("expecting TLS failure setting up server and client")
 		e.Close()
 	}
+	assert.NotNil(t, e)
 	if !strings.Contains(err.Error(), "bad certificate") {
 		t.Fatalf("expecting TLS certificate error, got: %v", err)
 	}
@@ -352,10 +360,8 @@ type testEnv struct {
 func (e testEnv) Close() {
 	if e.cc != nil {
 		e.cc.Close()
-		e.cc = nil
 	}
 	if e.svr != nil {
 		e.svr.GracefulStop()
-		e.svr = nil
 	}
 }
